@@ -14,17 +14,19 @@
 <meta name="author" content="Yarne">
 
 
-    
-    
 
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="blog">
-<meta property="og:url" content="https://yarnecn.github.io/yarnecn.github.io/index.html">
+<meta name="description" content="Redis简介Redis是一个基于 key-value 键值对的高性能的持久化数据库存储系统。支持多种数据结构，包括 string (字符串)、list (链表)、set (集合)、zset (sorted set –有序集合)和 hash（哈希类型）。这些数据类型都支持 push/pop、add/remove 及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。 Redis特性1. 速度">
+<meta name="keywords" content="Redis,教程,语法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 入门-01">
+<meta property="og:url" content="https://yarnecn.github.io/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/index.html">
 <meta property="og:site_name" content="blog">
+<meta property="og:description" content="Redis简介Redis是一个基于 key-value 键值对的高性能的持久化数据库存储系统。支持多种数据结构，包括 string (字符串)、list (链表)、set (集合)、zset (sorted set –有序集合)和 hash（哈希类型）。这些数据类型都支持 push/pop、add/remove 及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。 Redis特性1. 速度">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-16T02:57:53.252Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="blog">
+<meta name="twitter:title" content="Redis 入门-01">
+<meta name="twitter:description" content="Redis简介Redis是一个基于 key-value 键值对的高性能的持久化数据库存储系统。支持多种数据结构，包括 string (字符串)、list (链表)、set (集合)、zset (sorted set –有序集合)和 hash（哈希类型）。这些数据类型都支持 push/pop、add/remove 及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。 Redis特性1. 速度">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -52,13 +54,11 @@
 <link rel="stylesheet" href="/yarnecn.github.io/css/style.css">
 
 
-    <style> .article { opacity: 0;} </style>
-
 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>blog</title>
+<title>Redis 入门-01 | blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -67,8 +67,8 @@
     var yiliaConfig = {
         fancybox: true,
         animate: true,
-        isHome: true,
-        isPost: false,
+        isHome: false,
+        isPost: true,
         isArchive: false,
         isTag: false,
         isCategory: false,
@@ -258,227 +258,7 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我">
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-Redis入门-02" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/yarnecn.github.io/2018/03/10/Redis入门-02/" class="article-date">
-      <time datetime="2018-03-10T12:40:32.000Z" itemprop="datePublished">2018-03-10</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/yarnecn.github.io/2018/03/10/Redis入门-02/">Redis 入门-02</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <h3 id="Redis-特性"><a href="#Redis-特性" class="headerlink" title="Redis 特性"></a>Redis 特性</h3><ul>
-<li><h3 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h3></li>
-<li><em>两点说明*</em></li>
-</ul>
-<ol>
-<li>慢查询发生在执行命令的阶段</li>
-<li>客户端超时不一定慢查询，但是慢查询是客户端超时的一个可能因素</li>
-</ol>
-<p><strong>两个配置-slowlog-max-len</strong></p>
-<ol>
-<li>先进先出队列</li>
-<li>固定长度</li>
-<li>保存在内存内</li>
-<li></li>
-</ol>
-<p><strong>两个配置-slowlog-log-slower-than</strong></p>
-<ol>
-<li>慢查询阈值(单位：微妙)</li>
-<li>slowlog-log-slower-than=0,记录所有命令了（把所有命令当成慢查询）</li>
-<li>slowlog-log-slower-than=0,不记录所有命令</li>
-</ol>
-<p><strong>配置方法</strong></p>
-<ol>
-<li>默认值<ul>
-<li>config get slowlog-max-len=128</li>
-<li>config get slowlog-log-slower-than=10000</li>
-</ul>
-</li>
-<li>修改配置文件重启</li>
-<li>动态配置<ul>
-<li>config set slowlog-max-len 128</li>
-<li>config set slowlog-log-slower-than 10000</li>
-</ul>
-</li>
-</ol>
-<p><strong>慢查询命令</strong></p>
-<ol>
-<li>slowlog get [n] 获取慢查询队列</li>
-<li>slowlog len 获取慢查询队列长度</li>
-<li>slowlog reset 清空慢查询队列</li>
-</ol>
-<p><strong>运维经验</strong></p>
-<ol>
-<li>slowlog-max-len不要设置过大，默认10ms,通常设置1ms</li>
-<li>slowlog-log-slower-than 不要设置过小，通常设置1000左右.</li>
-<li>理解命令生命周期</li>
-<li>定期持久化慢查询</li>
-</ol>
-<ul>
-<li><h3 id="pipeline-流水线"><a href="#pipeline-流水线" class="headerlink" title="pipeline (流水线)"></a>pipeline (流水线)</h3></li>
-<li><em>实际上就是将命令打包，一次去执行n个命令并且返回一次结果*</em></li>
-</ul>
-<hr>
-<p><strong>流水线的作用</strong><br><img src="Redis%E5%85%A5%E9%97%A8-02.resources/06B2EC78-4BA3-4BC4-9BD6-7DF8FE8C9FED.png" alt="e0f0afc3fb1903ec0f2c1c8777e1cfa6"><br><strong>两点注意</strong></p>
-<ol>
-<li>Redis的命令时间是微秒级别</li>
-<li>pipeline 每次条数要控制（网络）</li>
-</ol>
-<p><strong>Jedis使用Pipeline</strong><br><img src="Redis%E5%85%A5%E9%97%A8-02.resources/E0108647-43B0-414E-9102-E2B4524B6CAD.png" alt="5c48ef36e3a9a387651dc5df31721d6a"><br><strong>使用建议</strong></p>
-<ol>
-<li>注意每次Pipeline携带的数据量</li>
-<li>pipeline每次只能作用在一个Redis节点上</li>
-<li>M操作和pipeline的区别</li>
-</ol>
-<ul>
-<li><h3 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h3></li>
-<li><em>角色:*</em><ul>
-<li>发布者<ul>
-<li>订阅者</li>
-<li>频道</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>模型(类似于生产者和消费者，每个订阅者可以订阅多个频道)</strong><br><img src="Redis%E5%85%A5%E9%97%A8-02.resources/67C8F860-1DD8-4F97-A31C-49874802A615.png" alt="6bc48d2705179f55a9710bbc13e77d5d"></p>
-<h6 id="API"><a href="#API" class="headerlink" title="API"></a>API</h6><pre><code>* publish channel message(对channel频道发送message消息) 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">publish channel1 演示</span><br></pre></td></tr></table></figure>
-
-* subcribe [channel] (订阅一个或者多个频道)
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">subcribe channel1</span><br></pre></td></tr></table></figure>
-
-* unsubcribe [channel] (取消订阅一个或者多个频道)
-* psubcribe [pattern...] （订阅模式,比如订阅以P开头的频道）
-* punsbcribe [pattern...] (退订指定的模式)
-* pubsub channels (列出至少有一个订阅者的频道)
-* pubsub numsub [channel] (列出频道订阅者数量)
-* pubsub numpat （列出被订阅模式订阅的数量）</code></pre><p><img src="Redis%E5%85%A5%E9%97%A8-02.resources/34B837EB-506D-48DA-B3AD-62DDF526D529.png" alt="6b8408a4d5514657c782532ac248933d"></p>
-<p><strong>需要注意</strong></p>
-<ol>
-<li>要分清楚消息队列是需要订阅者都接收还是只有一个能接收，都接收就是发送，只有一个能接收就是抢</li>
-<li>redis并没有消息队列的功能，需要自己去实现（阻塞队列）</li>
-<li>了解发布订阅模式中的角色</li>
-<li>了解api </li>
-</ol>
-<ul>
-<li><h3 id="Bitmap位图（简单说就是可以操作字符串的位）"><a href="#Bitmap位图（简单说就是可以操作字符串的位）" class="headerlink" title="Bitmap位图（简单说就是可以操作字符串的位）"></a>Bitmap位图（简单说就是可以操作字符串的位）</h3><img src="Redis%E5%85%A5%E9%97%A8-02.resources/94309733-D358-4527-BD77-07CD700FE491.png" alt="9229c3a8ad10c0504902bb3703232195"><br>通过一个bit来表示某个元素对应的值或者状态，其中key就是元素本身，实际上它就是字符串（key 对应的 value 就是上图中最后的一串二进制），但是它可以对字符串的位进行操作</li>
-</ul>
-<h5 id="API-1"><a href="#API-1" class="headerlink" title="API"></a><strong>API</strong></h5><pre><code>* setbit key offset value(给位图指定索引设置值)
-* getbit key offset(查询key指定索引位图的的值)
-* bitcount key [start end](获取位图指定范围的start到end的位值为1的个数，start end如果不加就是全部)
-* bitop op destkey key [key...]{做多个Bigmap的and(交集),or(并集),not(非),xor(异或)操作并且将结果保存在destkey中}
-![6479c6ea8a3caa308ba21fb7d966cfb6](Redis入门-02.resources/9FD9EA59-B507-4EFC-9D78-DDF3BCB25191.png)</code></pre><p><strong>bitpos</strong><br>        * bitpos key targetBit [start] [end]{计算位图指定范围(start到end，单位为字节，如果不指定就取全部)第一个偏移量对应的值等于targetbit的位置}<br><img src="Redis%E5%85%A5%E9%97%A8-02.resources/CC81348D-6703-4522-ABB4-F666B1EFB25D.png" alt="b43e863c7c304f129fc6a9f15264a118"></p>
-<p><strong>使用经验</strong></p>
-<ol>
-<li>type=string ,最大512MB</li>
-<li>注意setbit时的偏移量，可能有较大耗时</li>
-</ol>
-<ul>
-<li><h3 id="hyperloglog"><a href="#hyperloglog" class="headerlink" title="hyperloglog"></a>hyperloglog</h3>介绍</li>
-</ul>
-<ol>
-<li>基于Hyperloglog算法 用极小的空间完成独立数量统计。</li>
-<li>本质还是字符串</li>
-<li>一个key存储（占用内存小 ）<ul>
-<li>type hperloglog key </li>
-</ul>
-</li>
-</ol>
-<p><strong>三个命令</strong></p>
-<ol>
-<li>pfadd key element [element ..]像hyperloglog添加元素</li>
-<li>pfcount key [key…] 计算hyoerloglog的独立总数</li>
-<li>pfmerge destkey sourcekey [sourcekey…] 合并多个hyperloglog</li>
-</ol>
-<p><strong>演示</strong><br><img src="Redis%E5%85%A5%E9%97%A8-02.resources/00EABFCC-1487-4398-B898-292D0752B6A8.png" alt="43756872612cb398250c4f2a62bae314"><br><img src="Redis%E5%85%A5%E9%97%A8-02.resources/3E7031CE-7F1B-4D6F-9A7D-30FDE7A7E9EE.png" alt="045303484c4629e6b2ef5e4a7da48b81"><br><strong>问题</strong></p>
-<ol>
-<li>是否能容忍错误？(错误率:0.81%)</li>
-<li>是否需要单条数据（不能取出单条数据）</li>
-</ol>
-<ul>
-<li><h3 id="GEO-地理信息定位-存储经纬度，计算两地距离，范围计算等"><a href="#GEO-地理信息定位-存储经纬度，计算两地距离，范围计算等" class="headerlink" title="GEO (地理信息定位):存储经纬度，计算两地距离，范围计算等"></a>GEO (地理信息定位):存储经纬度，计算两地距离，范围计算等</h3><p><img src="Redis%E5%85%A5%E9%97%A8-02.resources/0783E8C1-70AE-4576-8CB8-34902E4C7B91.png" alt="b771bb1c91781169610968da7fbc3673"></p>
-<h5 id="api"><a href="#api" class="headerlink" title="api"></a>api</h5><ul>
-<li><p>geo key longitude latitiude member [longitude latitude member …] （增加地理位置信息）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">geoadd cities:locations 116.28 39.55 beijing</span><br><span class="line">geoadd cities:locations 116.28 39.55 beijing</span><br><span class="line">geoadd cities:locations 117.12 39.08 tianjin 114.29 38.02 shijiazhuang 118.01 39.38 tangshan 115.29 38.51 baoding</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>geopos key member [member…] (获取地理位置信息)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geopos cities:locations tianjin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>geodist key member1 member2 [unit](获取两个地址位置的距离 unit:m(米),km(千米),mi(英里),ft(尺))</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geodist cities:locations tianjin beijing km</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>georadius 可以计算出指定范围的地址位置信息集合<br><img src="Redis%E5%85%A5%E9%97%A8-02.resources/D2CA977D-B724-47AC-9EE1-F4058E3EA430.png" alt="d6cb433dbd489bd49469f73c0ed654d0"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">georadiusbymember cites:locations beijing 150 km（距离北京159公里范围内的位置）</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>相关说明</strong></p>
-<ol>
-<li>Redis 3.2以上才可以使用</li>
-<li>geokey=zset</li>
-<li>没有删除api: zrem key member 直接用zset的删除命令就可以</li>
-</ol>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/yarnecn.github.io/categories/学习/">学习</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/教程/">教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/特性/">特性</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Redis入门-基础用法01" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Redis入门-基础用法01" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/" class="article-date">
@@ -496,12 +276,27 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/">Redis 入门-01</a>
+    <h1 class="article-title" itemprop="name">
+      Redis 入门-01
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/yarnecn.github.io/categories/笔记/">笔记</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/教程/">教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/语法/">语法</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -620,27 +415,85 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/yarnecn.github.io/categories/笔记/">笔记</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/Redis/">Redis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/教程/">教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/yarnecn.github.io/tags/语法/">语法</a></li></ul>
-    </div>
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/">Redis 入门-01</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Yarne</a></p>
+        <p><span>发布时间:</span>2018-03-06, 20:10:32</p>
+        <p><span>最后更新:</span>2019-06-16, 10:57:53</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/" title="Redis 入门-01">https://yarnecn.github.io/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://yarnecn.github.io/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/　　作者: Yarne" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target="_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/yarnecn.github.io/2018/03/10/Redis入门-02/">
+                    Redis 入门-02
+                </a>
+            </div>
+        
+        
+    </nav>
+
   
 </article>
 
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis简介"><span class="toc-number">1.</span> <span class="toc-text">Redis简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis特性"><span class="toc-number">2.</span> <span class="toc-text">Redis特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-速度快"><span class="toc-number">2.1.</span> <span class="toc-text">1. 速度快</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-数据结构"><span class="toc-number">2.2.</span> <span class="toc-text">2. 数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-String"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. String</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-List"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.List</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Hash"><span class="toc-number">2.2.3.</span> <span class="toc-text">3.Hash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Set"><span class="toc-number">2.2.4.</span> <span class="toc-text">4.Set</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-Zset"><span class="toc-number">2.2.5.</span> <span class="toc-text">5.Zset</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录" title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Redis 入门-01　| blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
 
 
 
@@ -648,9 +501,33 @@
 
 
 
+    
 
-  
-  
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/yarnecn.github.io/2018/03/10/Redis入门-02/" title="上一篇: Redis 入门-02">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/yarnecn.github.io/2018/03/10/Redis入门-02/">Redis 入门-02</a></li><li class="post-list-item"><a class="post-list-link" href="/yarnecn.github.io/2018/03/06/Redis入门-基础用法01/">Redis 入门-01</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
